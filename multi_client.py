@@ -17,7 +17,7 @@ def _check_and_launch(suffix):
     found_all = True
     client_id = suffix if suffix else "1" 
     
-    print(f"Checking configuration for Client ID {client_id}...")
+    print(f"Memeriksa konfigurasi untuk Klien ID {client_id}...")
     
     for var in REQUIRED_VARS:
         full_var_name = var + suffix
@@ -29,13 +29,13 @@ def _check_and_launch(suffix):
                  return False 
             
             found_all = False
-            print(f"    ⚠️ Skipping Client {client_id} because '{full_var_name}' was not found.")
+            print(f"    ⚠️ Melewatkan Klien {client_id} karena '{full_var_name}' tidak ditemukan.")
             return False 
             
         env_vars_to_pass[var] = value
 
     if found_all:
-        print(f"    ✅ Variables found. Launching Client {client_id}...")
+        print(f"    ✅ Variabel ditemukan. Meluncurkan Klien {client_id}...")
         
         process_env = os.environ.copy()
         
@@ -47,6 +47,12 @@ def _check_and_launch(suffix):
         process_env.update(env_vars_to_pass)
         
         process_env['CLIENT_ID'] = client_id 
+
+        # --- MODIFIKASI UNTUK PYTHONPATH (Perbaikan Modul Tidak Ditemukan) ---
+        current_pythonpath = process_env.get('PYTHONPATH', '')
+        # Menambahkan direktori dasar proyek ke PYTHONPATH
+        process_env['PYTHONPATH'] = f"{current_pythonpath}:{BASE_DIR}"
+        # ---------------------------------------------------------------------
 
         client_cwd = BASE_DIR
         
@@ -88,4 +94,3 @@ except KeyboardInterrupt:
     print("Launcher stopped manually.")
 except Exception as er:
     print(f"Error in main loop: {er}")
-    
