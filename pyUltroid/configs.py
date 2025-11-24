@@ -27,6 +27,14 @@ class Var:
         if len(sys.argv) > 2
         else config("API_HASH", default="eb06d4abfb49dc3eeb1aeb98ae0f581e")
     )
+    API_ID2 = (
+        int(sys.argv[1]) if len(sys.argv) > 1 else config("API_ID2", default=6, cast=int)
+    )
+    API_HASH2 = (
+        sys.argv[2]
+        if len(sys.argv) > 2
+        else config("API_HASH2", default="eb06d4abfb49dc3eeb1aeb98ae0f581e")
+    )
     SESSION = sys.argv[3] if len(sys.argv) > 3 else config("SESSION", default=None)
     SESSION2 = sys.argv[3] if len(sys.argv) > 3 else config("SESSION2", default=None)
     SESSION3 = sys.argv[3] if len(sys.argv) > 3 else config("SESSION3", default=None)
