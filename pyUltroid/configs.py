@@ -1,44 +1,38 @@
-# Ultroid - UserBot
-# Copyright (C) 2021-2025 TeamUltroid
-#
-# This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
-# PLease read the GNU Affero General Public License in
-# <https://github.com/TeamUltroid/pyUltroid/blob/main/LICENSE>.
-
 import sys
 
 from decouple import config
 
 try:
     from dotenv import load_dotenv
-
     load_dotenv()
 except ImportError:
     pass
 
 
 class Var:
-    # mandatory
-    API_ID = (
-        int(sys.argv[1]) if len(sys.argv) > 1 else config("API_ID", default=6, cast=int)
-    )
-    API_HASH = (
-        sys.argv[2]
-        if len(sys.argv) > 2
-        else config("API_HASH", default="eb06d4abfb49dc3eeb1aeb98ae0f581e")
-    )
-    API_ID2 = (
-        int(sys.argv[1]) if len(sys.argv) > 1 else config("API_ID2", default=6, cast=int)
-    )
-    API_HASH2 = (
-        sys.argv[2]
-        if len(sys.argv) > 2
-        else config("API_HASH2", default="eb06d4abfb49dc3eeb1aeb98ae0f581e")
-    )
-    SESSION = sys.argv[3] if len(sys.argv) > 3 else config("SESSION", default=None)
-    SESSION2 = sys.argv[3] if len(sys.argv) > 3 else config("SESSION2", default=None)
-    SESSION3 = sys.argv[3] if len(sys.argv) > 3 else config("SESSION3", default=None)
-     
+    if len(sys.argv) > 1:
+        API_ID = int(sys.argv[1])
+    else:
+        API_ID = config("API_ID", cast=int)
+        
+    if len(sys.argv) > 2:
+        API_HASH = sys.argv[2]
+    else:
+        API_HASH = config("API_HASH")
+        
+    if len(sys.argv) > 3:
+        SESSION = sys.argv[3]
+    else:
+        SESSION = config("SESSION")
+        
+    API_ID2 = config("API_ID2", cast=int, default=None) 
+    API_HASH2 = config("API_HASH2", default=None) 
+    SESSION2 = config("SESSION2", default=None)
+    
+    API_ID3 = config("API_ID3", cast=int, default=None)
+    API_HASH3 = config("API_HASH3", default=None)
+    SESSION3 = config("SESSION3", default=None)
+    
     REDIS_URI = (
         sys.argv[4]
         if len(sys.argv) > 4
