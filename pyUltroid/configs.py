@@ -13,7 +13,7 @@ class Var:
     if len(sys.argv) > 1:
         API_ID = int(sys.argv[1])
     else:
-        API_ID = config("API_ID", cast=int)
+        API_ID = config("API_ID", cast=int) 
         
     if len(sys.argv) > 2:
         API_HASH = sys.argv[2]
@@ -25,11 +25,17 @@ class Var:
     else:
         SESSION = config("SESSION")
         
-    API_ID2 = config("API_ID2", cast=int, default=None) 
+    API_ID2 = config("API_ID2", default=None) 
+    if API_ID2 is not None:
+        API_ID2 = int(API_ID2)
+        
     API_HASH2 = config("API_HASH2", default=None) 
     SESSION2 = config("SESSION2", default=None)
     
-    API_ID3 = config("API_ID3", cast=int, default=None)
+    API_ID3 = config("API_ID3", default=None) 
+    if API_ID3 is not None:
+        API_ID3 = int(API_ID3)
+        
     API_HASH3 = config("API_HASH3", default=None)
     SESSION3 = config("SESSION3", default=None)
     
