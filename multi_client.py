@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import time
+import shutil  # <-- IMPORT BARU
 from dotenv import load_dotenv
 
 load_dotenv() 
@@ -10,6 +11,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 REQUIRED_VARS = ["API_ID", "API_HASH", "SESSION"]
 BASE_VARS = ["API_ID", "API_HASH"] 
+
+# FOLDER-FOLDER YANG PERLU DISALIN KE CWD UNIK
+FOLDERS_TO_COPY = ["plugins", "resources", "strings"] 
 
 def _check_and_launch(suffix):
     
@@ -62,15 +66,28 @@ def _check_and_launch(suffix):
         process_env['PYTHONPATH'] = f"{current_pythonpath}:{BASE_DIR}"
         # -----------------------------------
 
-        # --- PENTING: KEMBALI MENGGUNAKAN CWD UNIK UNTUK MENGHINDARI 'database is locked' ---
+        # --- CWD UNIK DAN LOGIKA PENYALINAN FOLDER (PENTING!) ---
         client_cwd = BASE_DIR
         
         if client_id != "1":
             client_dir_name = f"client{client_id}_data" 
             client_cwd = os.path.join(BASE_DIR, client_dir_name)
             
+            # 1. Pastikan CWD unik ada
             os.makedirs(client_cwd, exist_ok=True)
             print(f"    ⚙️ Setting unique CWD: {client_cwd}")
+
+            # 2. Salin folder-folder penting ke CWD unik
+            for folder in FOLDERS_TO_COPY:
+                src = os.path.join(BASE_DIR, folder)
+                dst = os.path.join(client_cwd, folder)
+                
+                # Cek apakah folder sumber ada dan folder tujuan belum ada
+                if os.path.isdir(src) and not os.path.isdir(dst):
+                    print(f"        📂 Menyalin folder '{folder}'...")
+                    shutil.copytree(src, dst)
+                elif not os.path.isdir(src):
+                     print(f"        ⚠️ Folder sumber '{folder}' tidak ditemukan di {BASE_DIR}")
         # ---------------------------------------------------------------------------------
 
         subprocess.Popen(
@@ -78,7 +95,6 @@ def _check_and_launch(suffix):
             stdin=None,
             stderr=None,
             stdout=None,
-            # Gunakan CWD yang sudah ditetapkan
             cwd=client_cwd, 
             env=process_env,
             close_fds=True,
@@ -105,4 +121,4 @@ except KeyboardInterrupt:
     print("Launcher stopped manually.")
 except Exception as er:
     print(f"Error in main loop: {er}")
-  
+    
