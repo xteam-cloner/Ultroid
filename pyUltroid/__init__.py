@@ -81,10 +81,10 @@ if run_as_module:
         # Ambil ID klien dari environment variable yang diset oleh launcher
         client_id = os.environ.get("CLIENT_ID", "1")
         # Buat nama sesi unik, misal: asst_client_1, asst_client_2
-        asst_session_name = f"asst_client_{client_id}"
+        asst_session = f"asst_{client_id}"
         
         # Gunakan nama sesi unik saat membuat UltroidClient
-        asst = UltroidClient(asst_session_name, bot_token=udB.get_key("BOT_TOKEN"), udB=udB)
+        asst = UltroidClient(asst_session, bot_token=udB.get_key("BOT_TOKEN"), udB=udB)
         # -------------------------------------------------------------
 
     if BOT_MODE:
