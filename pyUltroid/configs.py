@@ -34,6 +34,20 @@ class Var:
         
     API_HASH3 = config("API_HASH3", default=None)
     SESSION3 = config("SESSION3", default=None)
+
+    API_ID4 = config("API_ID4", default=None) 
+    if API_ID4 is not None:
+        API_ID4 = int(API_ID4)
+        
+    API_HASH4 = config("API_HASH4", default=None)
+    SESSION4 = config("SESSION4", default=None)
+
+    API_ID5 = config("API_ID5", default=None) 
+    if API_ID5 is not None:
+        API_ID5 = int(API_ID5)
+        
+    API_HASH5 = config("API_HASH5", default=None)
+    SESSION5 = config("SESSION5", default=None)
     
     REDIS_URI = (
         sys.argv[4]
